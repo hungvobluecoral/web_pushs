@@ -1,0 +1,7 @@
+services:
+  webpush:
+    build:
+      context: .
+      dockerfile: ./images/webpush/Dockerfile
+    ports:
+      - "3000:3000"
