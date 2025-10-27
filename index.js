@@ -27,16 +27,14 @@ app.use(cors({
 app.use(bodyParser.json());
 
 app.post('/send-notification', async (req, res) => {
-  const { title, body, sub } = req.body;
+  const { payload, subscription } = req.body;
 
-  if (!sub || !sub.endpoint) {
+  if (!subscription || !subscription.endpoint) {
     return res.status(400).json({ success: false, message: 'Invalid subscription' });
   }
 
-  const payload = JSON.stringify({ title, body });
-
   try {
-    await webPush.sendNotification(sub, payload);
+    await webPush.sendNotification(subscription, JSON.stringify(payload));
     res.json({ success: true, message: 'Notification sent successfully' });
   } catch (error) {
     console.error('❌ Push failed:', error.message);
